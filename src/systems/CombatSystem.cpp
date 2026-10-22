@@ -25,6 +25,10 @@ void CombatSystem::update(Game &game) {
     if (!e->estaVivo()) {
       if (e->hacerDanio()) {
         game.getJugador().vida -= e->getDanio();
+
+        EnemyReachedEndEvent ev;
+        ev.damage = e->getDanio();
+        game.getEventBus().publish(ev);
       } else {
         game.getJugador().oro += e->getOro();
         EnemyDiedEvent ev;

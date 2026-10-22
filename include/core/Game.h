@@ -39,6 +39,8 @@ private:
   std::vector<std::unique_ptr<Tower>> torres;
   std::vector<std::unique_ptr<Projectile>> proyectiles;
 
+  bool danioEnOleada = false;
+
 public:
   Game();
   ~Game();
@@ -52,6 +54,11 @@ public:
   void CambiarMapa(int nivel);
   // Cambia el estado actual (los estados crean el siguiente)
   void CambiarEstado(std::unique_ptr<IGameState> nuevo);
+
+  // Seguimiento de oleada perfecta: flag puesto al publicar
+  // EnemyReachedEndEvent (suscribirse en el ctor)
+  void setDanioEnOleada(bool v) { danioEnOleada = v; }
+  bool haRecibidoDanio() const { return danioEnOleada; }
 
   // Accessors for states/systems
   IGameState *getCurrentState() { return currentState.get(); }

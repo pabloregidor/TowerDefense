@@ -5,7 +5,14 @@
 Game::Game()
     : renderer(), eventBus(), enemyFactory(renderer, eventBus),
       towerFactory(renderer, eventBus), projectileFactory(renderer, eventBus),
-      currentState(std::make_unique<PreparacionState>()), mapa(), jugador() {}
+      currentState(std::make_unique<PreparacionState>()), mapa(), jugador() {
+  // Cualquier enemigo que llegue al final marca la oleada como no perfecta
+  eventBus.subscribe<EnemyReachedEndEvent>(
+      [this](const EnemyReachedEndEvent &e) {
+        (void)e;
+        danioEnOleada = true;
+      });
+}
 
 void Game::Actualizar() {
   if (currentState != nullptr) {
