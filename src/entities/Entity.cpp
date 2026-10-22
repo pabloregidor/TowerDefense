@@ -17,7 +17,8 @@ Vector2 Entity::calcularMovimiento(Vector2 posicion, Vector2 destino,
 
 void Entity::Dibujar() {
   // 1. FUENTE: Cogemos toda la imagen original (aunque sea gigante)
-  Rectangle fuente = {0.0f, 0.0f, (float)textura.width, (float)textura.height};
+  Rectangle fuente = {0.0f, 0.0f, (float)renderable.texture.width,
+                      (float)renderable.texture.height};
 
   // 2. TAMAÑO FINAL: Definimos cuánto queremos que mida en pantalla
   // Usamos TILE_SIZE (40) para que ocupe exactamente una casilla.
@@ -27,7 +28,7 @@ void Entity::Dibujar() {
   float altoFinal = (float)TILE_SIZE;
 
   // 3. POSICIÓN: Dónde se va a dibujar
-  Rectangle destino = {x, y, anchoFinal, altoFinal};
+  Rectangle destino = {position.x, position.y, anchoFinal, altoFinal};
 
   // 4. EL CENTRADO (ORIGEN):
   // Le decimos a Raylib que el punto de anclaje es el CENTRO de la nueva
@@ -36,7 +37,7 @@ void Entity::Dibujar() {
   Vector2 origen = {anchoFinal / 2.0f, altoFinal / 2.0f};
 
   // 5. DIBUJAR
-  DrawTexturePro(textura, fuente, destino, origen, 0.0f, WHITE);
+  DrawTexturePro(renderable.texture, fuente, destino, origen, 0.0f, WHITE);
 
   // DEBUG: Descomenta esto para ver si el punto rojo (tu x,y lógica) está en el
   // centro DrawCircle(x, y, 3, RED);

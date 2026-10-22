@@ -31,12 +31,13 @@ void Enemy::caminar() {
 
   Vector2 destino = camino->at(casillaDestino);
 
-  Vector2 nuevaPosicion = calcularMovimiento({x, y}, destino, velocidad);
+  Vector2 nuevaPosicion =
+      calcularMovimiento({position.x, position.y}, destino, velocidad);
 
-  x = nuevaPosicion.x;
-  y = nuevaPosicion.y;
+  position.x = nuevaPosicion.x;
+  position.y = nuevaPosicion.y;
 
-  if (x == destino.x && y == destino.y)
+  if (position.x == destino.x && position.y == destino.y)
     casillaDestino++;
 }
 

@@ -18,17 +18,18 @@ bool Projectile::Actualizar() {
 
   Vector2 posicionObjetivo = {objetivo->getX(), objetivo->getY()};
 
-  if (Vector2Distance({x, y}, posicionObjetivo) < velocidad) {
+  if (Vector2Distance({position.x, position.y}, posicionObjetivo) <
+      velocidad) {
     objetivo->recibirDanio(this->danio);
     activo = false;
     return true;
   }
 
-  Vector2 nuevaPosicion =
-      Entity::calcularMovimiento({x, y}, posicionObjetivo, velocidad);
+  Vector2 nuevaPosicion = Entity::calcularMovimiento(
+      {position.x, position.y}, posicionObjetivo, velocidad);
 
-  x = nuevaPosicion.x;
-  y = nuevaPosicion.y;
+  position.x = nuevaPosicion.x;
+  position.y = nuevaPosicion.y;
 
   return false;
 }
