@@ -3,6 +3,7 @@
 #include "../raylib.h"
 #include "../raymath.h"
 #include "../components/Position.h"
+#include "../rendering/IRenderer.h"
 #include "../components/Renderable.h"
 #include "../components/Health.h"
 #include "../components/Movement.h"
@@ -18,7 +19,10 @@ protected:
   Combat combat;
   Reward reward;
 
-  Entity(float x, float y, Texture2D textura) {
+  IRenderer *renderer;
+
+  Entity(float x, float y, Texture2D textura, IRenderer &r)
+      : renderer(&r) {
     position.x = x;
     position.y = y;
     renderable.texture = textura;

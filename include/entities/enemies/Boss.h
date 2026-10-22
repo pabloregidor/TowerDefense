@@ -3,6 +3,6 @@
 
 class Boss : public Enemy {
 public:
-  Boss(std::vector<Vector2> *camino, float x, float y);
+  Boss(std::vector<Vector2> *camino, float x, float y, IRenderer &r);
   ~Boss();
 };

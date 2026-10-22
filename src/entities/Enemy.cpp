@@ -2,8 +2,8 @@
 #include <vector>
 
 Enemy::Enemy(int hp, float velocidad, int danio, std::vector<Vector2> *camino,
-             float x, float y, Texture2D textura, int oro)
-    : Entity(x, y, textura) {
+             float x, float y, Texture2D textura, int oro, IRenderer &r)
+    : Entity(x, y, textura, r) {
   this->hp = hp;
   this->velocidad = velocidad;
   this->camino = camino;

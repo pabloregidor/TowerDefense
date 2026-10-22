@@ -8,9 +8,9 @@ TowerFactory::TowerFactory(IRenderer &r, EventBus &b) : renderer(r), bus(b) {
 }
 
 std::unique_ptr<Tower> TowerFactory::createArcher(float x, float y) {
-  return std::make_unique<ArcherTower>(x, y);
+  return std::make_unique<ArcherTower>(x, y, renderer);
 }
 
 std::unique_ptr<Tower> TowerFactory::createCanon(float x, float y) {
-  return std::make_unique<CanonTower>(x, y);
+  return std::make_unique<CanonTower>(x, y, renderer);
 }

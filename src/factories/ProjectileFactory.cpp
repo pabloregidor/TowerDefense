@@ -10,5 +10,6 @@ std::unique_ptr<Projectile> ProjectileFactory::createProjectile(float x, float y
                                                                float velocidad,
                                                                Enemy *objetivo) {
   return std::make_unique<Projectile>(
-      x, y, renderer.loadTexture("../assets/goblin.png"), velocidad, objetivo);
+      x, y, renderer.loadTexture("../assets/goblin.png"), velocidad, objetivo,
+      renderer);
 }

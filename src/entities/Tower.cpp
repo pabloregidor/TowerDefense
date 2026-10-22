@@ -1,8 +1,8 @@
 #include "../../include/entities/Tower.h"
 
 Tower::Tower(float x, float y, Texture2D textura, int danio, int cd, int coste,
-             int rango)
-    : Entity(x, y, textura) {
+             int rango, IRenderer &r)
+    : Entity(x, y, textura, r) {
   this->danio = danio;
   this->cd = cd;
   this->coste = coste;

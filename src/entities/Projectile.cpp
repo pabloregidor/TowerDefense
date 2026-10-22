@@ -1,8 +1,8 @@
 #include "../../include/entities/Projectile.h"
 
 Projectile::Projectile(float x, float y, Texture2D textura, float velocidad,
-                       Enemy *objetivo)
-    : Entity(x, y, textura) {
+                       Enemy *objetivo, IRenderer &r)
+    : Entity(x, y, textura, r) {
   this->velocidad = velocidad;
   this->objetivo = objetivo;
 }

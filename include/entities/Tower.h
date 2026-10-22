@@ -11,7 +11,7 @@ protected:
 
 public:
   Tower(float x, float y, Texture2D textura, int danio, int cd, int coste,
-        int rango);
+        int rango, IRenderer &r);
 
   virtual void atacar(const std::vector<std::unique_ptr<Enemy>> &objetivo);
   virtual int vender();
