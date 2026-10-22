@@ -17,7 +17,7 @@
 #include "../factories/TowerFactory.h"
 #include "../factories/ProjectileFactory.h"
 #include "../states/IGameState.h"
-#include "../states/PlayingState.h"
+#include "../states/PreparacionState.h"
 #include "../systems/MovementSystem.h"
 #include <memory>
 #include <vector>
@@ -47,6 +47,11 @@ public:
   void Draw();
   void GestionarInput();
   void SpawnEnemy(TipoEnemigo tipo);
+  // Reconstruye el mapa del nivel dado; seguro solo sin enemigos vivos
+  // (los unique_ptr de Enemy guardan un puntero al camino del mapa viejo).
+  void CambiarMapa(int nivel);
+  // Cambia el estado actual (los estados crean el siguiente)
+  void CambiarEstado(std::unique_ptr<IGameState> nuevo);
 
   // Accessors for states/systems
   IGameState *getCurrentState() { return currentState.get(); }

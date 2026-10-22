@@ -5,7 +5,7 @@
 Game::Game()
     : renderer(), eventBus(), enemyFactory(renderer, eventBus),
       towerFactory(renderer, eventBus), projectileFactory(renderer, eventBus),
-      currentState(std::make_unique<PlayingState>()), mapa(), jugador() {}
+      currentState(std::make_unique<PreparacionState>()), mapa(), jugador() {}
 
 void Game::Actualizar() {
   if (currentState != nullptr) {
@@ -43,6 +43,20 @@ void Game::SpawnEnemy(TipoEnemigo tipo) {
 
   if (nuevoEnemigo != nullptr) {
     enemigos.push_back(std::move(nuevoEnemigo));
+  }
+}
+
+void Game::CambiarMapa(int nivel) {
+  if (!enemigos.empty()) {
+    printf("No se puede cambiar de mapa con enemigos vivos.\n");
+    return;
+  }
+  mapa = Map(nivel);
+}
+
+void Game::CambiarEstado(std::unique_ptr<IGameState> nuevo) {
+  if (nuevo != nullptr) {
+    currentState = std::move(nuevo);
   }
 }
 

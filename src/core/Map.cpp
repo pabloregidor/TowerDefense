@@ -1,27 +1,81 @@
 #include "../../include/core/Map.h"
 
-Map::Map() {
-  for (int i = 0; i < ROWS; i++) {
-    for (int j = 0; j < COLS; j++) {
-      grid[i][j] = 0;
-    }
+namespace {
+
+// Marca una fila horizontal de casillas de camino (cols incluidos)
+void marcaFila(int grid[ROWS][COLS], int fil, int colIni, int colFin) {
+  for (int c = colIni; c <= colFin; c++) {
+    grid[fil][c] = 1;
   }
+}
 
-  for (int x = 0; x <= 10; x++)
-    grid[2][x] = 1;
+// Marca una columna vertical de casillas de camino (filas incluidas)
+void marcaColumna(int grid[ROWS][COLS], int col, int filIni, int filFin) {
+  int paso = (filIni <= filFin) ? 1 : -1;
+  for (int f = filIni; paso > 0 ? f <= filFin : f >= filFin; f += paso) {
+    grid[f][col] = 1;
+  }
+}
 
-  for (int y = 2; y <= 12; y++)
-    grid[y][10] = 1;
+Vector2 centroCasilla(int col, int fil) {
+  return Vector2{(float)(col * TILE_SIZE + TILE_SIZE / 2),
+                 (float)(fil * TILE_SIZE + TILE_SIZE / 2)};
+}
 
-  for (int x = 10; x < COLS; x++)
-    grid[12][x] = 1;
+void limpiarGrid(int grid[ROWS][COLS]) {
+  for (int i = 0; i < ROWS; i++)
+    for (int j = 0; j < COLS; j++)
+      grid[i][j] = 0;
+}
 
-  camino.push_back(Vector2{0, 2 * TILE_SIZE + TILE_SIZE / 2});
-  camino.push_back(
-      Vector2{10 * TILE_SIZE + TILE_SIZE / 2, 2 * TILE_SIZE + TILE_SIZE / 2});
-  camino.push_back(
-      Vector2{10 * TILE_SIZE + TILE_SIZE / 2, 12 * TILE_SIZE + TILE_SIZE / 2});
-  camino.push_back(Vector2{SCREEN_WIDTH, 12 * TILE_SIZE + TILE_SIZE / 2});
+} // namespace
+
+Map::Map(int nivel) { construir(nivel); }
+
+void Map::construir(int nivel) {
+  limpiarGrid(grid);
+  camino.clear();
+
+  // Nivel 1: zigzag básico (el camino original del juego)
+  if (nivel == 1) {
+    marcaFila(grid, 2, 0, 10);
+    marcaColumna(grid, 10, 2, 12);
+    marcaFila(grid, 12, 10, COLS - 1);
+
+    camino.push_back(Vector2{0, (float)(2 * TILE_SIZE + TILE_SIZE / 2)});
+    camino.push_back(centroCasilla(10, 2));
+    camino.push_back(centroCasilla(10, 12));
+    camino.push_back(Vector2{(float)SCREEN_WIDTH,
+                             (float)(12 * TILE_SIZE + TILE_SIZE / 2)});
+  }
+  // Nivel 2: camino con U invertida; baja, cruza y vuelve a subir
+  else if (nivel == 2) {
+    marcaFila(grid, 5, 0, 5);
+    marcaColumna(grid, 5, 5, 10);
+    marcaFila(grid, 10, 5, 14);
+    marcaColumna(grid, 14, 10, 5);
+    marcaFila(grid, 5, 14, COLS - 1);
+
+    camino.push_back(Vector2{0, (float)(5 * TILE_SIZE + TILE_SIZE / 2)});
+    camino.push_back(centroCasilla(5, 5));
+    camino.push_back(centroCasilla(5, 10));
+    camino.push_back(centroCasilla(14, 10));
+    camino.push_back(centroCasilla(14, 5));
+    camino.push_back(Vector2{(float)SCREEN_WIDTH,
+                             (float)(5 * TILE_SIZE + TILE_SIZE / 2)});
+  }
+  // Nivel 3: serpiente larga que baja al final
+  else {
+    marcaFila(grid, 1, 0, 15);
+    marcaColumna(grid, 15, 1, 13);
+    marcaFila(grid, 13, 15, COLS - 1);
+
+    camino.push_back(Vector2{0, (float)(1 * TILE_SIZE + TILE_SIZE / 2)});
+    camino.push_back(centroCasilla(15, 1));
+    camino.push_back(centroCasilla(15, 13));
+    camino.push_back(Vector2{(float)SCREEN_WIDTH,
+                             (float)(13 * TILE_SIZE + TILE_SIZE / 2)});
+  }
 }
 
 void Map::Draw() {

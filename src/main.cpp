@@ -1,20 +1,19 @@
 #include "../include/Constants.h"
 #include "../include/core/Game.h"
-#include "../include/core/Map.h"
 #include "../include/raylib.h"
 
-int main(int argc, char *argv[]) {
+int main() {
   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Tower Defense C++");
   SetTargetFPS(FPS);
 
-  Map mapa;
-  Game *game = new Game();
-  game->SpawnEnemy(GOBLIN);
+  Game game;
   while (!WindowShouldClose()) {
-    game->Actualizar();
+    // Delegacion en el estado actual: update/draw/handleInput
+    game.Actualizar();
+    game.GestionarInput();
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    game->Draw();
+    game.Draw();
     EndDrawing();
   }
 

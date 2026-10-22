@@ -16,8 +16,31 @@ Vector2 Entity::calcularMovimiento(Vector2 posicion, Vector2 destino,
 }
 
 void Entity::Dibujar() {
-  renderer->drawTexture(renderable.texture, position.x, position.y,
-                        (float)TILE_SIZE);
+  int row = (int)(position.y / TILE_SIZE);
+  float depthScale =
+      1.0f - (row * INCLINED_DEPTH_SCALE_STEP);
+  if (depthScale < INCLINED_DEPTH_SCALE_MIN) {
+    depthScale = INCLINED_DEPTH_SCALE_MIN;
+  }
+
+  float screenX = position.x;
+  float screenY = position.y * INCLINED_VERTICAL_SCALE;
+
+  float width = (float)TILE_SIZE * depthScale;
+  float height = width;
+  if (renderable.texture.width > 0 && renderable.texture.height > 0) {
+    height = width * ((float)renderable.texture.height /
+                      (float)renderable.texture.width);
+  }
+  // Clamp del alto para evitar sprites desorbitados en pantalla
+  float maxHeight = (float)TILE_SIZE * 3.0f;
+  if (height > maxHeight) {
+    float scale = maxHeight / height;
+    height = maxHeight;
+    width *= scale;
+  }
+  renderer->drawTexture(renderable.texture, screenX, screenY, width, height,
+                        true);
 }
 
 Entity::~Entity() {}
