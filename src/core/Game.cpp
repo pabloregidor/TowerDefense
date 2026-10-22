@@ -19,47 +19,6 @@ void Game::Draw() {
   }
 }
 
-void Game::ActualizarTorres() {
-  for (auto &t : torres)
-    t->atacar(enemigos);
-}
-
-void Game::ActualizarEnemigos() {
-  for (size_t i = 0; i < enemigos.size();) {
-    Enemy *e = enemigos[i].get();
-
-    if (!e->estaVivo()) {
-      if (e->hacerDanio()) {
-        jugador.vida -= e->getDanio();
-      } else {
-        jugador.oro += e->getOro();
-        EnemyDiedEvent ev;
-        ev.gold = e->getOro();
-        ev.position = {e->getX(), e->getY()};
-        eventBus.publish(ev);
-      }
-
-      enemigos.erase(enemigos.begin() + i);
-    } else {
-      ++i;
-    }
-  }
-}
-
-void Game::ActualizarProyectiles() {
-  for (size_t i = 0; i < proyectiles.size();) {
-    Projectile *p = proyectiles[i].get();
-
-    p->Actualizar();
-
-    if (!p->EstaActivo()) {
-      proyectiles.erase(proyectiles.begin() + i);
-    } else {
-      ++i;
-    }
-  }
-}
-
 void Game::GestionarInput() {
   if (currentState != nullptr) {
     currentState->handleInput(*this);

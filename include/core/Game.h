@@ -1,6 +1,6 @@
 #pragma once
-#include "../core/Oleadas.h"
-#include "../core/PlayerStats.h"
+#include "../../include/core/Oleadas.h"
+#include "../../include/core/PlayerStats.h"
 #include "../entities/Enemy.h"
 #include "../entities/Projectile.h"
 #include "../entities/Tower.h"
@@ -45,9 +45,6 @@ public:
 
   void Actualizar();
   void Draw();
-  void ActualizarTorres();
-  void ActualizarEnemigos();
-  void ActualizarProyectiles();
   void GestionarInput();
   void SpawnEnemy(TipoEnemigo tipo);
 

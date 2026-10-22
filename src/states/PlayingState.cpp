@@ -1,30 +1,16 @@
 #include "../../include/states/PlayingState.h"
 #include "../../include/core/Game.h"
 #include "../../include/systems/MovementSystem.h"
+#include "../../include/systems/CombatSystem.h"
+#include "../../include/systems/RenderSystem.h"
 #include <cstdio>
 
 void PlayingState::update(Game &game) {
   MovementSystem::update(game.getEnemigos(), GetFrameTime());
-  game.ActualizarEnemigos();
-  game.ActualizarTorres();
-  game.ActualizarProyectiles();
+  CombatSystem::update(game);
 }
 
-void PlayingState::draw(Game &game) {
-  game.getMapa().Draw();
-
-  for (auto &e : game.getEnemigos()) {
-    e->Dibujar();
-  }
-
-  for (auto &t : game.getTorres()) {
-    t->Dibujar();
-  }
-
-  for (auto &p : game.getProyectiles()) {
-    p->Dibujar();
-  }
-}
+void PlayingState::draw(Game &game) { RenderSystem::draw(game); }
 
 void PlayingState::handleInput(Game &game) {
   if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
