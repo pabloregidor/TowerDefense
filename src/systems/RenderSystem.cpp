@@ -31,4 +31,14 @@ void RenderSystem::draw(Game &game) {
       d.entity->Dibujar();
     }
   }
+}void RenderSystem::drawHUD(Game &game) {
+  const PlayerStats &p = game.getJugador();
+  char buf[128];
+
+  snprintf(buf, sizeof(buf), "Nivel %d  Oleada %d", p.nivel, p.oleada);
+  DrawText(buf, 10, 10, 20, BLACK);
+
+  snprintf(buf, sizeof(buf), "Vida: %d   Oro: %d   Puntos: %d", p.vida,
+           p.oro, p.points);
+  DrawText(buf, 10, 35, 20, BLACK);
 }

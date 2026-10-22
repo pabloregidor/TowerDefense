@@ -18,6 +18,7 @@ void PreparacionState::draw(Game &game) {
   const char *msg = "ENTER o ESPACIO para iniciar la oleada";
   DrawText(msg, SCREEN_WIDTH / 2 - 160, SCREEN_HEIGHT - 60, 20, BLACK);
   DrawText("Preparacion", SCREEN_WIDTH / 2 - 60, 20, 20, BLACK);
+  RenderSystem::drawHUD(game);
 }
 
 void PreparacionState::handleInput(Game &game) {

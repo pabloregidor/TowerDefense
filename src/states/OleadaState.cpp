@@ -84,6 +84,7 @@ void OleadaState::update(Game &game) {
 void OleadaState::draw(Game &game) {
   RenderSystem::draw(game);
   DrawText("Oleada en curso", SCREEN_WIDTH / 2 - 70, 20, 20, BLACK);
+  RenderSystem::drawHUD(game);
 }
 
 void OleadaState::handleInput(Game &game) { (void)game; }
