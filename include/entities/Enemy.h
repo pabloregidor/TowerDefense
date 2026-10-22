@@ -12,7 +12,7 @@ protected:
   bool golpear, vivo;
 
   Enemy(int hp, float velocidad, int danio, std::vector<Vector2> *camino,
-        float x, float y, Texture2D textura);
+        float x, float y, Texture2D textura, int oro = 0);
 
 public:
   virtual bool estaVivo() { return vivo; };

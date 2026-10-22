@@ -2,7 +2,7 @@
 #include <vector>
 
 Enemy::Enemy(int hp, float velocidad, int danio, std::vector<Vector2> *camino,
-             float x, float y, Texture2D textura)
+             float x, float y, Texture2D textura, int oro)
     : Entity(x, y, textura) {
   this->hp = hp;
   this->velocidad = velocidad;
@@ -11,6 +11,7 @@ Enemy::Enemy(int hp, float velocidad, int danio, std::vector<Vector2> *camino,
   this->vivo = true;
   this->golpear = false;
   this->danio = danio;
+  this->oro = oro;
 }
 
 void Enemy::recibirDanio(int danioRecibido) {
