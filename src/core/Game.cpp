@@ -8,25 +8,14 @@ Game::Game()
       currentState(std::make_unique<PlayingState>()), mapa(), jugador() {}
 
 void Game::Actualizar() {
-  MovementSystem::update(enemigos, GetFrameTime());
-  ActualizarEnemigos();
-  ActualizarTorres();
-  ActualizarProyectiles();
+  if (currentState != nullptr) {
+    currentState->update(*this);
+  }
 };
 
 void Game::Draw() {
-  mapa.Draw();
-
-  for (auto &e : enemigos) {
-    e->Dibujar();
-  }
-
-  for (auto &t : torres) {
-    t->Dibujar();
-  }
-
-  for (auto &p : proyectiles) {
-    p->Dibujar();
+  if (currentState != nullptr) {
+    currentState->draw(*this);
   }
 }
 
@@ -72,31 +61,8 @@ void Game::ActualizarProyectiles() {
 }
 
 void Game::GestionarInput() {
-  if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-    Vector2 raton = GetMousePosition();
-
-    int col = (int)(raton.x / TILE_SIZE);
-    int fil = (int)(raton.y / TILE_SIZE);
-
-    if (mapa.GetTipoCasilla(col, fil) == 0) {
-      bool ocupado = false;
-      for (auto &t : torres) {
-        int tCol = (int)(t->getX() / TILE_SIZE);
-        int tFil = (int)(t->getY() / TILE_SIZE);
-        if (tCol == col && tFil == fil) {
-          ocupado = true;
-          break;
-        }
-      }
-
-      if (!ocupado) {
-        // Construcción deshabilitada hasta change de combate/economía
-      } else {
-        printf("¡Ya hay una torre ahí!\n");
-      }
-    } else {
-      printf("No se puede construir en el camino.\n");
-    }
+  if (currentState != nullptr) {
+    currentState->handleInput(*this);
   }
 }
 
