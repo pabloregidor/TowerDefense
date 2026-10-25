@@ -102,9 +102,9 @@ void Game::ConstruirTorre(int col, int fil) {
   float cy = (float)fil * TILE_SIZE + TILE_SIZE / 2.0f;
   std::unique_ptr<Tower> nueva = nullptr;
   if (tipoSeleccionado == 2) {
-    nueva = towerFactory.createCanon(cx, cy);
+    nueva = towerFactory.createLancero(cx, cy);
   } else {
-    nueva = towerFactory.createArcher(cx, cy);
+    nueva = towerFactory.createMago(cx, cy);
   }
   if (nueva != nullptr) {
     torres.push_back(std::move(nueva));

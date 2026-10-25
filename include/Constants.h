@@ -27,8 +27,8 @@ inline std::string assetPath(const std::string &nombre) {
 }
 
 // Torres
-const std::string TORRE_MAGO_ASSET = "torre_mago.png"; // ArcherTower
-const std::string TORRE_LANCERO_ASSET = "torre_lancero.png"; // CanonTower
+const std::string TORRE_MAGO_ASSET = "torre_mago.png"; // TorreMago
+const std::string TORRE_LANCERO_ASSET = "torre_lancero.png"; // TorreLancero
 // Enemigos
 const std::string GOBLIN_ASSET = "duende.png";
 const std::string ORC_ASSET = "orco.png";

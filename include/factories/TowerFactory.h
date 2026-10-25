@@ -10,6 +10,6 @@ class TowerFactory {
 
 public:
   TowerFactory(IRenderer &r, EventBus &b);
-  std::unique_ptr<Tower> createArcher(float x, float y);
-  std::unique_ptr<Tower> createCanon(float x, float y);
+  std::unique_ptr<Tower> createMago(float x, float y);
+  std::unique_ptr<Tower> createLancero(float x, float y);
 };
