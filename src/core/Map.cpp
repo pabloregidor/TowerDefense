@@ -1,4 +1,6 @@
 #include "../../include/core/Map.h"
+#include <array>
+#include <vector>
 
 namespace {
 
@@ -14,6 +16,19 @@ void marcaColumna(int grid[ROWS][COLS], int col, int filIni, int filFin) {
   int paso = (filIni <= filFin) ? 1 : -1;
   for (int f = filIni; paso > 0 ? f <= filFin : f >= filFin; f += paso) {
     grid[f][col] = 1;
+  }
+}
+
+void marcaBloques(int grid[ROWS][COLS],
+                  const std::vector<std::array<int, 4>> &bloques) {
+  for (const auto &b : bloques) {
+    for (int f = b[1]; f <= b[3]; f++) {
+      for (int c = b[0]; c <= b[2]; c++) {
+        if (f >= 0 && f < ROWS && c >= 0 && c < COLS && grid[f][c] == 0) {
+          grid[f][c] = 2; // zona de construccion
+        }
+      }
+    }
   }
 }
 
@@ -54,6 +69,9 @@ void Map::construir(int nivel) {
     camino.push_back(centroCasilla(10, 12));
     camino.push_back(Vector2{(float)SCREEN_WIDTH,
                              (float)(12 * TILE_SIZE + TILE_SIZE / 2)});
+    // Bloques construibles: junto al tramo vertical y bajo el tramo final
+    marcaBloques(grid, std::vector<std::array<int, 4>>{{7, 4, 9, 9},
+                                                       {13, 14, 16, 17}});
   }
   // Nivel 2: camino con U invertida; baja, cruza y vuelve a subir
   else if (nivel == 2) {
@@ -70,6 +88,9 @@ void Map::construir(int nivel) {
     camino.push_back(centroCasilla(14, 5));
     camino.push_back(Vector2{(float)SCREEN_WIDTH,
                              (float)(5 * TILE_SIZE + TILE_SIZE / 2)});
+    // Interior de la U
+    marcaBloques(grid, std::vector<std::array<int, 4>>{{8, 7, 11, 9},
+                                                       {16, 12, 18, 14}});
   }
   // Nivel 3: serpiente larga que baja al final
   else {
@@ -82,6 +103,10 @@ void Map::construir(int nivel) {
     camino.push_back(centroCasilla(15, 13));
     camino.push_back(Vector2{(float)SCREEN_WIDTH,
                              (float)(13 * TILE_SIZE + TILE_SIZE / 2)});
+    // Dos:
+
+    marcaBloques(grid, std::vector<std::array<int, 4>>{{11, 4, 13, 8},
+                                                       {17, 9, 19, 11}});
   }
 }
 
@@ -104,6 +129,12 @@ void Map::Draw() {
         renderer->drawTexture(tile, (float)posX + TILE_SIZE / 2.0f,
                               (float)posY + TILE_SIZE / 2.0f,
                               (float)TILE_SIZE, (float)TILE_SIZE, false);
+      }
+
+      // Zona de construccion: borde sutil para distinguirla del camino
+      if (grid[y][x] == 2) {
+        DrawRectangleLines(posX + 1, posY + 1, TILE_SIZE - 2, TILE_SIZE - 2,
+                           Fade(WHITE, 0.35f));
       }
       // sin renderer: solo queda el rect de color (fallback)
     }

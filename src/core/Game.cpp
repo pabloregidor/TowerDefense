@@ -82,8 +82,8 @@ void Game::CambiarEstado(std::unique_ptr<IGameState> nuevo) {
 }
 
 void Game::ConstruirTorre(int col, int fil) {
-  if (mapa.GetTipoCasilla(col, fil) != 0) {
-    printf("No se puede construir en el camino.\n");
+  if (mapa.GetTipoCasilla(col, fil) != 2) {
+    printf("Solo se construye en zonas de construccion.\n");
     return;
   }
   for (auto &t : torres) {
