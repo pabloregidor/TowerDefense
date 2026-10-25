@@ -1,10 +1,12 @@
 #include "../../include/entities/Projectile.h"
 
 Projectile::Projectile(float x, float y, Texture2D textura, float velocidad,
-                       Enemy *objetivo, IRenderer &r)
+                       Enemy *objetivo, int danio, IRenderer &r)
     : Entity(x, y, textura, r) {
   this->velocidad = velocidad;
   this->objetivo = objetivo;
+  this->danio = danio;
+  this->activo = true;
 }
 
 bool Projectile::Actualizar() {

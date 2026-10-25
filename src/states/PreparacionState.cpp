@@ -22,8 +22,20 @@ void PreparacionState::draw(Game &game) {
 }
 
 void PreparacionState::handleInput(Game &game) {
-  if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
+  if (IsKeyPressed(KEY_ONE)) {
+    game.setTipoSeleccionado(1);
+  } else if (IsKeyPressed(KEY_TWO)) {
+    game.setTipoSeleccionado(2);
+  } else if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
     game.getJugador().oleada++;
     game.CambiarEstado(std::make_unique<OleadaState>());
+    return;
+  }
+
+  if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+    Vector2 raton = GetMousePosition();
+    int col = (int)(raton.x / TILE_SIZE);
+    int fil = (int)(raton.y / TILE_SIZE);
+    game.ConstruirTorre(col, fil);
   }
 }

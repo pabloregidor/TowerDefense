@@ -11,7 +11,7 @@ protected:
 
 public:
   Projectile(float x, float y, Texture2D textura, float velocidad,
-             Enemy *objetivo, IRenderer &r);
+             Enemy *objetivo, int danio, IRenderer &r);
   virtual bool Actualizar();
   virtual bool EstaActivo() { return activo; };
   virtual ~Projectile();

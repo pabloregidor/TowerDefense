@@ -10,6 +10,7 @@ class ProjectileFactory {
 
 public:
   ProjectileFactory(IRenderer &r, EventBus &b);
-  std::unique_ptr<Projectile> createProjectile(float x, float y, float velocidad,
-                                              Enemy *objetivo);
+  std::unique_ptr<Projectile> createProjectile(float x, float y,
+                                              float velocidad,
+                                              Enemy *objetivo, int danio);
 };

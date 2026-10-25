@@ -41,4 +41,9 @@ void RenderSystem::draw(Game &game) {
   snprintf(buf, sizeof(buf), "Vida: %d   Oro: %d   Puntos: %d", p.vida,
            p.oro, p.points);
   DrawText(buf, 10, 35, 20, BLACK);
+
+  const char *tipo = (game.getTipoSeleccionado() == 2) ? "Canon" : "Archer";
+  snprintf(buf, sizeof(buf), "Torre seleccionada: %s (coste %d)", tipo,
+           game.costeSeleccionado());
+  DrawText(buf, 10, 60, 20, BLACK);
 }

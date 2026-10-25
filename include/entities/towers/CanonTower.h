@@ -2,6 +2,6 @@
 
 class CanonTower : public Tower {
 public:
-  CanonTower(float x, float y, IRenderer &r);
+  CanonTower(float x, float y, IRenderer &r, EventBus &bus);
   ~CanonTower();
 };

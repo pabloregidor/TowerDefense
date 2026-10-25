@@ -12,6 +12,19 @@ Game::Game()
         (void)e;
         danioEnOleada = true;
       });
+
+  // Disparo de torre: la torre solo publica el intento, la creación del
+  // proyectil se centraliza aquí via ProjectileFactory.
+  eventBus.subscribe<TowerShootEvent>(
+      [this](const TowerShootEvent &e) {
+        if (e.targetEnemy != nullptr && e.targetEnemy->estaVivo()) {
+          auto proyectil = projectileFactory.createProjectile(
+              e.position.x, e.position.y, e.speed, e.targetEnemy, e.danio);
+          if (proyectil != nullptr) {
+            proyectiles.push_back(std::move(proyectil));
+          }
+        }
+      });
 }
 
 void Game::Actualizar() {
@@ -64,6 +77,37 @@ void Game::CambiarMapa(int nivel) {
 void Game::CambiarEstado(std::unique_ptr<IGameState> nuevo) {
   if (nuevo != nullptr) {
     currentState = std::move(nuevo);
+  }
+}
+
+void Game::ConstruirTorre(int col, int fil) {
+  if (mapa.GetTipoCasilla(col, fil) != 0) {
+    printf("No se puede construir en el camino.\n");
+    return;
+  }
+  for (auto &t : torres) {
+    if ((int)(t->getX() / TILE_SIZE) == col &&
+        (int)(t->getY() / TILE_SIZE) == fil) {
+      printf("¡Ya hay una torre ahí!\n");
+      return;
+    }
+  }
+  int coste = costeSeleccionado();
+  if (jugador.oro < coste) {
+    printf("Oro insuficiente para construir (necesitas %d).\n", coste);
+    return;
+  }
+  float cx = (float)col * TILE_SIZE + TILE_SIZE / 2.0f;
+  float cy = (float)fil * TILE_SIZE + TILE_SIZE / 2.0f;
+  std::unique_ptr<Tower> nueva = nullptr;
+  if (tipoSeleccionado == 2) {
+    nueva = towerFactory.createCanon(cx, cy);
+  } else {
+    nueva = towerFactory.createArcher(cx, cy);
+  }
+  if (nueva != nullptr) {
+    torres.push_back(std::move(nueva));
+    jugador.oro -= coste; // descontar solo tras el push real
   }
 }
 

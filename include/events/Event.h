@@ -19,3 +19,12 @@ struct WaveCompletedEvent : Event {
   int wave = 0;
   bool perfect = false;
 };
+
+class Enemy; // Reenviar para targetEnemy (no incluir Enemy.h aquí)
+
+struct TowerShootEvent : Event {
+  Vector2 position{};
+  Enemy *targetEnemy = nullptr;
+  float speed = 0.0f;
+  int danio = 0;
+};

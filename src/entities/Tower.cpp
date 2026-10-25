@@ -1,15 +1,53 @@
 #include "../../include/entities/Tower.h"
+#include "../../include/events/Event.h"
 
 Tower::Tower(float x, float y, Texture2D textura, int danio, int cd, int coste,
-             int rango, IRenderer &r)
-    : Entity(x, y, textura, r) {
+             int rango, IRenderer &r, EventBus &bus)
+    : Entity(x, y, textura, r), bus(bus) {
   this->danio = danio;
   this->cd = cd;
+  this->cdRestante = cd;
   this->coste = coste;
   this->rango = rango;
-};
+}
 
-void Tower::atacar(const std::vector<std::unique_ptr<Enemy>> &objetivo) {}
+void Tower::atacar(const std::vector<std::unique_ptr<Enemy>> &objetivo) {
+  // Cooldown: se descuenta un frame por llamada y solo se dispara al llegar
+  // a 0 (Archer 3, Canon 6 frames, valor vigente).
+  if (cdRestante > 0) {
+    cdRestante--;
+    return;
+  }
+
+  // Selección de objetivo: enemigo vivo más cercano dentro de rango
+  // (en tiles: rango * TILE_SIZE píxeles).
+  Enemy *masCercano = nullptr;
+  float distancia = 0.0f;
+  float rangoPx = (float)this->rango * TILE_SIZE;
+  for (auto &e : objetivo) {
+    if (!e->estaVivo()) {
+      continue;
+    }
+    float d = Vector2Distance({position.x, position.y},
+                              {e->getX(), e->getY()});
+    if (d <= rangoPx && (masCercano == nullptr || d < distancia)) {
+      masCercano = e.get();
+      distancia = d;
+    }
+  }
+  if (masCercano == nullptr) {
+    return;
+  }
+
+  TowerShootEvent ev;
+  ev.position = {position.x, position.y};
+  ev.targetEnemy = masCercano;
+  ev.speed = 350.0f; // velocidad base del proyectil
+  ev.danio = this->danio;
+  bus.publish(ev);
+
+  cdRestante = this->cd;
+}
 
 int Tower::vender() { return this->coste * 0.65; }
 

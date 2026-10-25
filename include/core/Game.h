@@ -40,6 +40,8 @@ private:
   std::vector<std::unique_ptr<Projectile>> proyectiles;
 
   bool danioEnOleada = false;
+  // Tipo de torre seleccionada para construir: 1 = Archer, 2 = Canon
+  int tipoSeleccionado = 1;
 
 public:
   Game();
@@ -54,6 +56,13 @@ public:
   void CambiarMapa(int nivel);
   // Cambia el estado actual (los estados crean el siguiente)
   void CambiarEstado(std::unique_ptr<IGameState> nuevo);
+
+  // Construcción de torres: valida casilla, oro y crea via TowerFactory
+  void ConstruirTorre(int col, int fil);
+  int getTipoSeleccionado() const { return tipoSeleccionado; }
+  void setTipoSeleccionado(int v) { tipoSeleccionado = v; }
+  // Coste de la torre seleccionada (50 Archer, 70 Canon)
+  int costeSeleccionado() const { return tipoSeleccionado == 2 ? 70 : 50; }
 
   // Seguimiento de oleada perfecta: flag puesto al publicar
   // EnemyReachedEndEvent (suscribirse en el ctor)
