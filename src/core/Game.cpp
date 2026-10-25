@@ -5,7 +5,7 @@
 Game::Game()
     : renderer(), eventBus(), enemyFactory(renderer, eventBus),
       towerFactory(renderer, eventBus), projectileFactory(renderer, eventBus),
-      currentState(std::make_unique<PreparacionState>()), mapa(), jugador() {
+      currentState(std::make_unique<PreparacionState>()), mapa(1, &renderer), jugador() {
   // Cualquier enemigo que llegue al final marca la oleada como no perfecta
   eventBus.subscribe<EnemyReachedEndEvent>(
       [this](const EnemyReachedEndEvent &e) {
@@ -72,7 +72,7 @@ void Game::CambiarMapa(int nivel) {
     printf("No se puede cambiar de mapa con enemigos vivos.\n");
     return;
   }
-  mapa = Map(nivel);
+  mapa = Map(nivel, &renderer);
 }
 
 void Game::CambiarEstado(std::unique_ptr<IGameState> nuevo) {

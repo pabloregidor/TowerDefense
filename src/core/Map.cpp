@@ -30,7 +30,14 @@ void limpiarGrid(int grid[ROWS][COLS]) {
 
 } // namespace
 
-Map::Map(int nivel) { construir(nivel); }
+Map::Map(int nivel, IRenderer *r) : renderer(r), seed(nivel * 7919) {
+  if (renderer != nullptr) {
+    tileCesped    = renderer->loadTexture(assetPath(TILE_CESPED_ASSET));
+    tileCespedVar = renderer->loadTexture(assetPath(TILE_CESPED_VAR_ASSET));
+    tileCamino    = renderer->loadTexture(assetPath(TILE_CAMINO_ASSET));
+  }
+  construir(nivel);
+}
 
 void Map::construir(int nivel) {
   limpiarGrid(grid);
@@ -84,17 +91,21 @@ void Map::Draw() {
       int posX = x * TILE_SIZE;
       int posY = y * TILE_SIZE;
 
-      Color colorDelCuadrado;
+      // base opaca para tapar marcas de borde/alpha de los tiles Kenney
+      DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE,
+                    grid[y][x] != 0 ? DARKBROWN : DARKGREEN);
 
-      if (grid[y][x] == 0) {
-        colorDelCuadrado = DARKGREEN;
-      } else {
-        colorDelCuadrado = DARKBROWN;
+      if (renderer != nullptr) {
+        const Texture2D &tile =
+            (grid[y][x] != 0)
+                ? tileCamino
+                : ((x * 13 + y * 7 + seed) % 11 == 0 ? tileCespedVar
+                                                     : tileCesped);
+        renderer->drawTexture(tile, (float)posX + TILE_SIZE / 2.0f,
+                              (float)posY + TILE_SIZE / 2.0f,
+                              (float)TILE_SIZE, (float)TILE_SIZE, false);
       }
-
-      DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE, colorDelCuadrado);
-
-      DrawRectangleLines(posX, posY, TILE_SIZE, TILE_SIZE, Fade(BLACK, 0.1f));
+      // sin renderer: solo queda el rect de color (fallback)
     }
   }
 

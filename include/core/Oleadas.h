@@ -1,3 +1,4 @@
+#pragma once
 enum TipoEnemigo { GOBLIN, ORC, BOSS };
 enum TipoTorre { TORRE_MAGO, TORRE_LANCERO };
 
