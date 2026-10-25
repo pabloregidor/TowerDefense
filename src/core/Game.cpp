@@ -19,7 +19,8 @@ Game::Game()
       [this](const TowerShootEvent &e) {
         if (e.targetEnemy != nullptr && e.targetEnemy->estaVivo()) {
           auto proyectil = projectileFactory.createProjectile(
-              e.position.x, e.position.y, e.speed, e.targetEnemy, e.danio);
+              e.position.x, e.position.y, e.speed, e.targetEnemy, e.danio,
+              e.tipoTorre);
           if (proyectil != nullptr) {
             proyectiles.push_back(std::move(proyectil));
           }

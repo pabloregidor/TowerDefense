@@ -27,4 +27,5 @@ struct TowerShootEvent : Event {
   Enemy *targetEnemy = nullptr;
   float speed = 0.0f;
   int danio = 0;
+  int tipoTorre = 0; // TipoTorre
 };

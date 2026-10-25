@@ -34,7 +34,8 @@ const std::string GOBLIN_ASSET = "duende.png";
 const std::string ORC_ASSET = "orco.png";
 const std::string BOSS_ASSET = "mago_malvado.png";
 // Proyectil
-const std::string PROJECTILE_ASSET = "proyectil.png";
+const std::string PROJECTILE_MAGO_ASSET = "proyectil.png"; // bola azul
+const std::string PROJECTILE_LANCERO_ASSET = "lanza.png";  // lanza voladora
 // Mapa: hierba base + variacion; camino liso; transiciones por lado
 const std::string TILE_CESPED_ASSET = "tile_0000.png";
 const std::string TILE_CESPED_VAR_ASSET = "tile_0001.png";
