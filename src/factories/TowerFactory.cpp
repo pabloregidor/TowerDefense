@@ -8,9 +8,9 @@ TowerFactory::TowerFactory(IRenderer &r, EventBus &b) : renderer(r), bus(b) {
 }
 
 std::unique_ptr<Tower> TowerFactory::createMago(float x, float y) {
-  return std::make_unique<TorreMago>(x, y, renderer, bus);
+  return std::make_unique<TorreMago>(x, y, renderer.loadTexture(assetPath(TORRE_MAGO_ASSET)), renderer, bus);
 }
 
 std::unique_ptr<Tower> TowerFactory::createLancero(float x, float y) {
-  return std::make_unique<TorreLancero>(x, y, renderer, bus);
+  return std::make_unique<TorreLancero>(x, y, renderer.loadTexture(assetPath(TORRE_LANCERO_ASSET)), renderer, bus);
 }
