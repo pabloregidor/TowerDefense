@@ -42,7 +42,7 @@ void Tower::atacar(const std::vector<std::unique_ptr<Enemy>> &objetivo) {
   TowerShootEvent ev;
   ev.position = {position.x, position.y};
   ev.targetEnemy = masCercano;
-  ev.speed = 350.0f; // velocidad base del proyectil
+  ev.speed = 180.0f; // velocidad del proyectil (px/s)
   ev.danio = this->danio;
   ev.tipoTorre = getTipoTorre();
   bus.publish(ev);

@@ -1,7 +1,22 @@
 #include "../../include/rendering/RaylibRenderer.h"
 
+void RaylibRenderer::loadTextureFallback(const std::string &path,
+                                        Texture2D &out) {
+  out = LoadTexture(path.c_str());
+  if (out.width <= 0) {
+    // Ejecutar desde build/ -> probar la ruta relativa al proyecto
+    out = LoadTexture(("../" + path).c_str());
+  }
+}
+
 Texture2D RaylibRenderer::loadTexture(const std::string &path) {
-  return LoadTexture(path.c_str());
+  Texture2D texture{};
+  loadTextureFallback(path, texture);
+  // Pixel-art: sin suavizado al escalar (movimiento limpio)
+  if (texture.id != 0) {
+    SetTextureFilter(texture, TEXTURE_FILTER_POINT);
+  }
+  return texture;
 }
 
 void RaylibRenderer::drawTexture(const Texture2D &texture, float x, float y,

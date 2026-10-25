@@ -19,9 +19,9 @@ bool Projectile::Actualizar() {
   }
 
   Vector2 posicionObjetivo = {objetivo->getX(), objetivo->getY()};
+  float paso = velocidad * GetFrameTime(); // px este frame
 
-  if (Vector2Distance({position.x, position.y}, posicionObjetivo) <
-      velocidad) {
+  if (Vector2Distance({position.x, position.y}, posicionObjetivo) <= paso) {
     objetivo->recibirDanio(this->danio);
     activo = false;
     return true;
