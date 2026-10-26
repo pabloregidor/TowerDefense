@@ -1,4 +1,5 @@
 #include "../../include/rendering/RaylibRenderer.h"
+#include <unordered_map>
 
 void RaylibRenderer::loadTextureFallback(const std::string &path,
                                         Texture2D &out) {
@@ -10,11 +11,15 @@ void RaylibRenderer::loadTextureFallback(const std::string &path,
 }
 
 Texture2D RaylibRenderer::loadTexture(const std::string &path) {
+  auto it = cache.find(path);
+  if (it != cache.end())
+    return it->second; // ya cargada: reuso
+
   Texture2D texture{};
   loadTextureFallback(path, texture);
-  // Pixel-art: sin suavizado al escalar (movimiento limpio)
   if (texture.id != 0) {
     SetTextureFilter(texture, TEXTURE_FILTER_POINT);
+    cache[path] = texture; // primera carga: cache
   }
   return texture;
 }
