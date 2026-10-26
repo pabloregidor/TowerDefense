@@ -36,4 +36,9 @@ bool Projectile::Actualizar() {
   return false;
 }
 
+void Projectile::Dibujar() {
+  renderer->drawTexture(renderable.texture, position.x, position.y, 12.0f,
+                        12.0f, false);
+}
+
 Projectile::~Projectile() {}

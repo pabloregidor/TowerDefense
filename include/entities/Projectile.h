@@ -16,5 +16,6 @@ public:
   virtual bool EstaActivo() { return activo; };
   void setObjetivo(Enemy *o) { objetivo = o; }
   Enemy *getObjetivo() const { return objetivo; };
+  virtual void Dibujar() override; // mas pequeño que torres/enemigos
   virtual ~Projectile();
 };

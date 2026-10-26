@@ -28,7 +28,7 @@ void Entity::Dibujar() {
   // colocacion es 1:1 con la casilla clicada; la profundidad por fila sigue)
   float screenY = position.y + (float)TILE_SIZE / 2.0f;
 
-  float width = (float)TILE_SIZE * depthScale;
+  float width = (float)TILE_SIZE * 2.0f * depthScale;
   float height = width;
   if (renderable.texture.width > 0 && renderable.texture.height > 0) {
     height = width * ((float)renderable.texture.height /

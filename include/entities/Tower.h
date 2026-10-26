@@ -10,7 +10,7 @@
 class Tower : public Entity {
 protected:
   int danio, cd, coste, rango;
-  int cdRestante;
+  float cdRestante = 0.0f; // segundos restantes de cooldown
   EventBus &bus;
 
 public:

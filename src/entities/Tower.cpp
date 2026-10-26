@@ -6,7 +6,7 @@ Tower::Tower(float x, float y, Texture2D textura, int danio, int cd, int coste,
     : Entity(x, y, textura, r), bus(bus) {
   this->danio = danio;
   this->cd = cd;
-  this->cdRestante = cd;
+  this->cdRestante = (float)cd; // segundos
   this->coste = coste;
   this->rango = rango;
 }
@@ -14,8 +14,8 @@ Tower::Tower(float x, float y, Texture2D textura, int danio, int cd, int coste,
 void Tower::atacar(const std::vector<std::unique_ptr<Enemy>> &objetivo) {
   // Cooldown: se descuenta un frame por llamada y solo se dispara al llegar
   // a 0 (Archer 3, Canon 6 frames, valor vigente).
-  if (cdRestante > 0) {
-    cdRestante--;
+  if (cdRestante > 0.0f) {
+    cdRestante -= GetFrameTime(); // por frame en segundos
     return;
   }
 
@@ -47,7 +47,7 @@ void Tower::atacar(const std::vector<std::unique_ptr<Enemy>> &objetivo) {
   ev.tipoTorre = getTipoTorre();
   bus.publish(ev);
 
-  cdRestante = this->cd;
+  cdRestante = (float)this->cd; // 3 s (mago) / 6 s (lanzero)
 }
 
 int Tower::vender() { return this->coste * 0.65; }
