@@ -38,6 +38,14 @@ void CombatSystem::update(Game &game) {
       }
 
       enemigos.erase(enemigos.begin() + i);
+
+      // Los proyectiles que iban hacia el enemigo borrado quedan sin
+      // objetivo (evita puntero colgante en el siguiente frame)
+      for (auto &pr : proyectiles) {
+        if (pr->getObjetivo() == e) {
+          pr->setObjetivo(nullptr);
+        }
+      }
     } else {
       ++i;
     }

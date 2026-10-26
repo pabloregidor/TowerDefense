@@ -1,6 +1,6 @@
 #pragma once
 #include "IRenderer.h"
-#include <unordered_map>
+#include <map>
 
 class RaylibRenderer : public IRenderer {
 public:
@@ -9,6 +9,6 @@ public:
                    float height, bool anchorBottom = true) override;
 
 private:
-  std::unordered_map<std::string, Texture2D> cache;
+  std::map<std::string, Texture2D> cache;
   void loadTextureFallback(const std::string &path, Texture2D &out);
 };

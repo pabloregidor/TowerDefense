@@ -14,5 +14,7 @@ public:
              Enemy *objetivo, int danio, IRenderer &r);
   virtual bool Actualizar();
   virtual bool EstaActivo() { return activo; };
+  void setObjetivo(Enemy *o) { objetivo = o; }
+  Enemy *getObjetivo() const { return objetivo; };
   virtual ~Projectile();
 };

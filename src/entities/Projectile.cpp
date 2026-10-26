@@ -13,7 +13,7 @@ bool Projectile::Actualizar() {
   if (!activo)
     return false;
 
-  if (!objetivo->estaVivo()) {
+  if (objetivo == nullptr || !objetivo->estaVivo()) {
     activo = false;
     return false;
   }
