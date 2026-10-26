@@ -19,6 +19,7 @@
 #include "../states/IGameState.h"
 #include "../states/PreparacionState.h"
 #include "../systems/MovementSystem.h"
+#include <cmath>
 #include <memory>
 #include <vector>
 

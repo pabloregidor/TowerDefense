@@ -86,10 +86,17 @@ void Game::ConstruirTorre(int col, int fil) {
     printf("Solo se construye en zonas de construccion.\n");
     return;
   }
+  // Bloqueo por rect de la torre: 2 tiles de ancho (col..col+1) y 3 de
+  // alto (fil-2..fil), base en el suelo de la fila clicada; evita torres
+  // que se solapen parcialmente
+  auto seSolapan = [](int c1, int f1, int c2, int f2) {
+    return std::abs(c1 - c2) < 2 && std::abs(f1 - f2) < 3;
+  };
   for (auto &t : torres) {
-    if ((int)(t->getX() / TILE_SIZE) == col &&
-        (int)(t->getY() / TILE_SIZE) == fil) {
-      printf("¡Ya hay una torre ahí!\n");
+    int tCol = (int)(t->getX() / TILE_SIZE);
+    int tFil = (int)(t->getY() / TILE_SIZE);
+    if (seSolapan(col, fil, tCol, tFil)) {
+      printf("Ahi no cabe: otra torre ocupa esos tiles.\n");
       return;
     }
   }

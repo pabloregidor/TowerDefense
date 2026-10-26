@@ -37,8 +37,8 @@ bool Projectile::Actualizar() {
 }
 
 void Projectile::Dibujar() {
-  renderer->drawTexture(renderable.texture, position.x, position.y, 12.0f,
-                        12.0f, false);
+  renderer->drawTexture(renderable.texture, position.x, position.y, 16.0f,
+                        16.0f, false);
 }
 
 Projectile::~Projectile() {}
