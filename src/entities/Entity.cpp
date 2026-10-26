@@ -24,10 +24,9 @@ void Entity::Dibujar() {
   }
 
   float screenX = position.x;
-  // Base del sprite anclada al SUELO de su casilla (asi las torres y los
-  // enemigos pin en su casilla, no un bloque mas arriba)
-  float screenY = (position.y + (float)TILE_SIZE / 2.0f) *
-                  INCLINED_VERTICAL_SCALE;
+  // Base del sprite anclada al SUELO de su casilla, sin comprimir (asi la
+  // colocacion es 1:1 con la casilla clicada; la profundidad por fila sigue)
+  float screenY = position.y + (float)TILE_SIZE / 2.0f;
 
   float width = (float)TILE_SIZE * depthScale;
   float height = width;
